@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYTEFEST // REGISTRATIONS CLOSED</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated to a darker, more modern crimson
+                        'ares-red': '#D00020', 
+                        'grid-black': '#000000',
+                    },
+                    boxShadow: {
+                        // Shadows updated to use the new color
+                        'glow-sm': '0 0 4px #D00020',
+                        'glow-md': '0 0 10px #D00020',
+                        'glow-lg': '0 0 20px #D00020',
+                    },
+                    fontFamily: {
+                        // Use VT323 for the pixel-art/terminal look
+                        mono: ['VT323', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base styling for the dark/digital aesthetic */
+        body {
+            background-color: #000000;
+            color: #D00020;
+            /* Animated background gradient (subtle grid/scanlines) - uses new color */
+            background-image: linear-gradient(0deg, transparent 95%, rgba(208, 0, 32, 0.1) 100%),
+                              linear-gradient(90deg, transparent 98%, rgba(208, 0, 32, 0.1) 100%);
+            background-size: 50px 50px; /* Size of the grid cells */
+            animation: grid-scroll 30s linear infinite;
+        }
+
+        /* Keyframe for background movement */
+        @keyframes grid-scroll {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 50px 50px; /* Scrolls the background by one cell size */
+            }
+        }
+
+        /* Class for the pulsating glow effect on text and borders (Optimized for fluidity) */
+        .ares-glow {
+            text-shadow: 0 0 6px #D00020;
+            /* Smoother, slightly slower pulse */
+            animation: pulse-glow 3.5s ease-in-out infinite alternate; 
+            /* Hints to the browser to use hardware acceleration for smooth animation */
+            will-change: text-shadow, opacity; 
+        }
+        
+        /* Specific white glow for key focus words (Used for the main status message) */
+        .white-glow {
+            text-shadow: 0 0 8px #ffffff, 0 0 12px #D00020;
+            animation: white-pulse-glow 3.5s ease-in-out infinite alternate; 
+            will-change: text-shadow, opacity;
+        }
+
+        /* Keyframe for white glow */
+        @keyframes white-pulse-glow {
+            from {
+                opacity: 0.8; 
+                text-shadow: 0 0 6px #ffffff, 0 0 10px #D00020;
+            }
+            to {
+                opacity: 1;
+                text-shadow: 0 0 10px #ffffff, 0 0 20px #D00020;
+            }
+        }
+
+
+        /* Custom border/shadow styling for key containers */
+        .border-ares {
+            border-color: #D00020;
+            box-shadow: 0 0 4px #D00020; 
+        }
+
+        /* Keyframe for the subtle pulse animation (Red) */
+        @keyframes pulse-glow {
+            from {
+                opacity: 0.85; 
+                text-shadow: 0 0 5px #D00020; 
+            }
+            to {
+                opacity: 1;
+                text-shadow: 0 0 12px #D00020; 
+            }
+        }
+
+        /* Styling for the corner logos: forces image to be white */
+        .white-logo {
+            filter: brightness(0) invert(1) drop-shadow(0 0 4px #D00020); /* Forces colors to white and adds a red glow */
+            opacity: 0.9;
+            transition: all 0.3s ease-in-out;
+        }
+        .white-logo:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        /* New styles for the cropped NMS Tigers logo */
+        .cropped-tiger-logo {
+            background-image: url('https://github.com/auxiliumgnms/Auxilium-repo/blob/main/NMSTigersnoBG.png?raw=true');
+            background-size: 250%; /* Zoom in by 2.5x to crop from all sides */
+            background-position: center; /* Center the zoomed image */
+            background-repeat: no-repeat;
+            filter: brightness(0) invert(1) drop-shadow(0 0 4px #D00020); /* Forces white and adds glow */
+            opacity: 0.9;
+            transition: all 0.3s ease-in-out;
+        }
+        .cropped-tiger-logo:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        /* The rest of the custom animations (floaters, streaks, cursor) are retained but simplified for brevity in this response, as they only affect visual presentation and not content structure. */
+
+        /* Floating background elements */
+        .floating-element {
+            position: absolute;
+            background-color: transparent;
+            border: 1px solid #D00020;
+            box-shadow: 0 0 5px #D00020;
+            opacity: 0.1; /* Very subtle */
+            animation-duration: 20s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: both;
+            z-index: 0; /* Ensure it stays behind content */
+            pointer-events: none; /* Make sure it doesn't block clicks */
+        }
+        
+        /* Specific animations for floating elements */
+        @keyframes float-x {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(calc(100vw / 12)); } /* Floats by 1/12th of viewport width */
+        }
+
+        @keyframes float-y {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(calc(100vh / 10)); } /* Floats by 1/10th of viewport height */
+        }
+        /* Added new keyframes for more unpredictable movement */
+        @keyframes float-diag-down {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(15vw, 15vh); }
+        }
+        @keyframes float-diag-up {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-10vw, -10vh); }
+        }
+
+        /* Specific triangle element using CSS borders */
+        .floating-triangle {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 35px solid #D00020; /* Color of the triangle */
+            box-shadow: 0 0 8px #D00020; /* Glow for the triangle */
+            opacity: 0.15;
+        }
+
+        /* Warp Speed Streaks Styles (New) */
+        .warp-streak {
+            position: fixed; /* Fixed relative to the viewport */
+            width: 1px; /* Very thin line */
+            background-color: #D00020;
+            box-shadow: 0 0 10px 1px #D00020;
+            opacity: 0.05; /* Very subtle */
+            z-index: 10; /* Above background grid, below content box */
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        /* Streak Animation Keyframes - Simulates light flying outwards from center (pulsating scale) */
+        @keyframes streak-vertical {
+            0% { transform: translateY(0) scaleY(0.1); opacity: 0.05; }
+            50% { transform: translateY(0) scaleY(1); opacity: 0.15; }
+            100% { transform: translateY(0) scaleY(0.1); opacity: 0.05; }
+        }
+        @keyframes streak-horizontal {
+            0% { transform: translateX(0) scaleX(0.1); opacity: 0.05; }
+            50% { transform: translateX(0) scaleX(1); opacity: 0.15; }
+            100% { transform: translateX(0) scaleX(0.1); opacity: 0.05; }
+        }
+        
+        /* Cursor Trail CSS (New) */
+        .cursor-trail {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background-color: #D00020;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #D00020;
+            pointer-events: none;
+            opacity: 0; /* Starts hidden, fades in/out with transition */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            z-index: 9999; /* Highest Z-index */
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 font-mono bg-grid-black antialiased relative">
+    
+    <div class="absolute inset-0 z-10 pointer-events-none">
+        <div class="warp-streak h-full w-[2px] left-0 md:left-1/4" style="animation: streak-vertical 10s linear infinite;"></div>
+        <div class="warp-streak h-full w-[2px] right-0 md:right-1/4" style="animation: streak-vertical 12s linear infinite reverse;"></div>
+        <div class="warp-streak h-full w-[1px] left-1/2 -ml-[0.5px]" style="animation: streak-vertical 8s linear infinite;"></div>
+        
+        <div class="warp-streak w-full h-[2px] top-0 md:top-1/4" style="animation: streak-horizontal 11s linear infinite;"></div>
+        <div class="warp-streak w-full h-[2px] bottom-0 md:bottom-1/4" style="animation: streak-horizontal 9s linear infinite reverse;"></div>
+    </div>
+    
+    <div class="floating-elements hidden lg:block absolute inset-0 z-10 pointer-events-none">
+        <div class="floating-element w-6 h-6 top-[15%] left-[20%]" style="animation: float-diag-up 25s ease-in-out infinite alternate;"></div>
+        <div class="floating-element w-10 h-10 bottom-[30%] right-[25%]" style="animation: float-diag-down 30s ease-in-out infinite alternate reverse;"></div>
+        <div class="floating-triangle top-[40%] right-[10%]" style="animation: float-x 28s ease-in-out infinite alternate reverse, float-y 23s ease-in-out infinite alternate;"></div>
+        <div class="floating-element w-8 h-8 top-[5%] right-[40%]" style="animation: float-y 26s ease-in-out infinite alternate reverse, float-x 19s ease-in-out infinite alternate;"></div>
+        <div class="floating-element w-12 h-12 bottom-[10%] left-[5%]" style="animation: float-x 24s ease-in-out infinite alternate reverse, float-y 21s ease-in-out infinite alternate;"></div>
+        <div class="floating-triangle bottom-[20%] left-[45%]" style="animation: float-x 27s ease-in-out infinite alternate, float-y 22s ease-in-out infinite alternate reverse;"></div>
+
+        <div class="floating-element w-4 h-4 top-[80%] left-[80%] opacity-5" style="animation: float-diag-up 32s ease-in-out infinite alternate;"></div>
+        <div class="floating-element w-7 h-7 top-[10%] left-[5%] opacity-10" style="animation: float-diag-down 27s linear infinite reverse;"></div>
+        <div class="floating-triangle bottom-[5%] right-[5%] opacity-15" style="animation: float-x 35s linear infinite, float-y 30s linear infinite reverse;"></div>
+        <div class="floating-element w-5 h-5 top-[60%] right-[15%] opacity-10" style="animation: float-x 40s linear infinite reverse, float-y 35s linear infinite;"></div>
+        <div class="floating-element w-9 h-9 bottom-[45%] left-[10%] opacity-15" style="animation: float-diag-up 38s ease-in-out infinite alternate reverse;"></div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto border-4 border-ares rounded-lg shadow-glow-lg p-6 md:p-10 min-h-[85vh] flex flex-col justify-between relative overflow-hidden z-20">
+
+        <a href="https://www.gemsnms-dubai.com/" 
+           target="_blank" 
+           class="absolute top-[-10px] left-[-10px] z-50 p-4"
+        >
+            <img src="https://github.com/auxiliumgnms/Auxilium-repo/blob/main/NMSSIdeLogoWithText.png?raw=true" 
+                 alt="GEMS New Millennium School Logo" 
+                 class="w-24 md:w-32 white-logo"
+            >
+        </a>
+
+        <a href="https://www.gemsnms-dubai.com/cocurricular-activities/sports/" 
+           target="_blank" 
+           class="absolute top-[-10px] right-[-10px] z-50 p-4"
+        >
+            <div class="w-20 h-20 md:w-28 md:h-28 cropped-tiger-logo"></div>
+        </a>
+
+
+        <div class="text-center pt-16 flex-grow flex flex-col justify-center items-center">
+            
+            <img src="https://github.com/auxiliumgnms/Auxilium-repo/blob/main/Bytefesthackathonlogo.png?raw=true" 
+                 alt="Bytefest Logo" 
+                 class="w-full max-w-xs md:max-w-lg mx-auto filter brightness-125 mb-12"
+                 style="filter: drop-shadow(0 0 10px #D00020);"
+            >
+            
+            <p class="text-4xl md:text-6xl text-ares-red mt-4 font-light uppercase pb-6">
+                &lt;-- <span class="white-glow text-white font-bold">ACCESS DENIED</span> --&gt;
+            </p>
+
+            <h1 class="text-5xl md:text-7xl font-bold uppercase mb-8 text-white tracking-widest ares-glow" 
+                style="color: #ffffff; text-shadow: 0 0 15px #D00020, 0 0 25px #D00020;"
+            >
+                REGISTRATIONS CLOSED
+            </h1>
+
+            <p class="text-2xl md:text-4xl text-ares-red font-light uppercase">
+                THANK YOU TO ALL PARTICIPANTS
+            </p>
+
+        </div>
+
+        <footer class="mt-16 pt-8 border-t-2 border-ares text-center">
+            <h3 class="text-3xl md:text-4xl uppercase mb-4 text-ares-red ares-glow tracking-widest">
+                // SYSTEM EXIT SEQUENCE INITIATED //
+            </h3>
+            <p class="text-xl md:text-2xl text-white font-bold tracking-widest">
+                SEE YOU ON NOVEMBER 18TH
+            </p>
+            <div class="w-1/4 h-1 bg-ares-red mx-auto mt-6 shadow-glow-sm"></div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Logic for Tron-like cursor trail (Retained from original)
+        document.addEventListener('mousemove', function(e) {
+            // 1. Create the particle element
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            
+            // 2. Position it at the cursor
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            
+            // 3. Append to body
+            document.body.appendChild(trail);
+            
+            // Force reflow for transition to work immediately
+            trail.offsetHeight; 
+
+            // 4. Start the fade-out and shrink animation via CSS transition
+            trail.style.opacity = '1';
+            trail.style.transform = 'scale(2)';
+
+            // Wait a fraction of a second, then remove the element
+            setTimeout(() => {
+                // First, fade it out
+                trail.style.opacity = '0';
+                trail.style.transform = 'scale(0.5)'; // Subtle shrink effect
+
+                // Then remove from DOM after the transition completes (0.5s from CSS)
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                }, 500); // Must match the CSS transition time
+                
+            }, 50); // Small delay to create a dense trail
+        });
+    </script>
+
+</body>
+</html>
